@@ -1,49 +1,74 @@
-
-import React, {useState} from "react";
+import React,{useState} from "react";
 import './../styles/App.css';
 
+
+// const list = [
+//   {
+//     id: 1,
+//     title: "Learn React"
+//   },
+//   {
+//     id: 2,
+//     title: "Learn Java"
+//   },
+//   {
+//     id: 3,
+//     title: "Learn Python"
+//   },
+//   {
+//     id: 4,
+//     title: "Learn React"
+//   }
+// ]
+
+
 const App = () => {
-    const [todo, setTodo] = useState("");
-    const [todoList, setTodoList] = useState([]);
-
-     console.log("todo", todo)
-
-    function implementAddTodo(e){
-            e.preventDefault()
-            setTodoList([...todoList, todo])
-            setTodo ("")
-
-    }
+  const [toDo, setToDo] = useState("");
+  const [toDoList, setToDoList] = useState([]); // [ {id:1, title:"Learn React"}, {id:2, title:"Learn Java"}]
+  const [id, setId] = useState(1); // [ {id:1, title:"Learn React"}, {id:2, title:"Learn Java"}
+  console.log(id)
    
-    function handleDelete(index){
-          //  console.log("item to be deleted", index)
-           setTodoList(todoList.filter((value, position)=>  position !== index))
-    }
+  console.log(toDoList)
+
+  function addToDo(e){
+     e.preventDefault()
+    //  let last_element = toDoList[toDoList.length-1] || {id:0}
+     setToDoList([...toDoList, {id: id, title:toDo }])
+     setToDo("")
+     setId(id+1)
+  }
+// [ {id:1, title:"Learn React"}, {id:2, title:"Learn Java"}, {id:3, title:"Learn Python"}]
+  function deleteToDo(delete_id){
+    //  let newToDoList = []
+
+    //  for(let t of toDoList){
+    //    if(t.id !== delete_id){
+    //      newToDoList.push(t)
+    //    }
+    //  }
+
+    setToDoList(toDoList.filter((item) => item.id !== delete_id))
+  }
 
   return (
     <div>
-          <form onSubmit={implementAddTodo}>
-            <input type="text" placeholder="Enter task" 
-                onChange={(e) => setTodo (e.target.value)}
-                value = {todo}
-            />
-            <button type="submit">Add Todo</button>
-          </form>
+      <h1>To-Do List</h1>
+       <form onSubmit={addToDo}>
+             <input type="text"  placeholder="Enter to do" 
+              onChange={(event)=>setToDo(event.target.value)}
+              value={toDo}
+             />
+             <button type="submit">Add to do</button>
+       </form>
 
-          {
-            todoList.map((item, index) => (
-              <ul>
-                  <div key={index}>
-                    <li>
-                      {item} 
-                    </li>
-                    <button onClick={()=>handleDelete(index)}>Delete</button>
-                  </div>
-                  
-              </ul>
-            ))
-          }
-         
+         <ul>
+            {toDoList.map((item)=>{
+              return <li key={item.id}>
+                {item.title}
+                <button onClick={()=>deleteToDo(item.id)}> Delete </button>
+                </li>
+            })}
+         </ul>
     </div>
   )
 }
