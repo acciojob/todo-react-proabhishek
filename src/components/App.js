@@ -1,76 +1,27 @@
 import React,{useState} from "react";
 import './../styles/App.css';
-
-
-// const list = [
-//   {
-//     id: 1,
-//     title: "Learn React"
-//   },
-//   {
-//     id: 2,
-//     title: "Learn Java"
-//   },
-//   {
-//     id: 3,
-//     title: "Learn Python"
-//   },
-//   {
-//     id: 4,
-//     title: "Learn React"
-//   }
-// ]
+import CreateToDo from "./CreateToDo"
+import DisplayToDo from "./DisplayToDo"
 
 
 const App = () => {
-  const [toDo, setToDo] = useState("");
-  const [toDoList, setToDoList] = useState([]); // [ {id:1, title:"Learn React"}, {id:2, title:"Learn Java"}]
-  const [id, setId] = useState(1); // [ {id:1, title:"Learn React"}, {id:2, title:"Learn Java"}
-  console.log(id)
-   
-  console.log(toDoList)
+  const [todoList,setTodoList] = useState([])
 
-  function addToDo(e){
-     e.preventDefault()
-    //  let last_element = toDoList[toDoList.length-1] || {id:0}
-     setToDoList([...toDoList, {id: id, title:toDo }])
-     setToDo("")
-     setId(id+1)
-  }
-// [ {id:1, title:"Learn React"}, {id:2, title:"Learn Java"}, {id:3, title:"Learn Python"}]
-  function deleteToDo(delete_id){
-    //  let newToDoList = []
 
-    //  for(let t of toDoList){
-    //    if(t.id !== delete_id){
-    //      newToDoList.push(t)
-    //    }
-    //  }
+    return(
+      <div>
 
-    setToDoList(toDoList.filter((item) => item.id !== delete_id))
-  }
-
-  return (
-    <div>
-      <h1>To-Do List</h1>
-       <form onSubmit={addToDo}>
-             <input type="text"  placeholder="Enter to do" 
-              onChange={(event)=>setToDo(event.target.value)}
-              value={toDo}
-             />
-             <button type="submit">Add to do</button>
-       </form>
-
-         <ul>
-            {toDoList.map((item)=>{
-              return <li key={item.id}>
-                {item.title}
-                <button onClick={()=>deleteToDo(item.id)}> Delete </button>
-                </li>
-            })}
-         </ul>
-    </div>
-  )
+          <CreateToDo  setTodoList={setTodoList}
+           todoList={todoList}
+          />
+          <DisplayToDo  todoList={todoList}
+          setTodoList={setTodoList}
+          />
+      </div>
+    )
 }
+
+
+
 
 export default App
